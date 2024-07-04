@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .char-selection {
+            background: rgb(51, 54, 51);
+            height: 80vh;
+        }
+        .panel{
+            background:rgb(20, 20, 20);
+            height: 20vh;
+        }
+        .btn-play{
+            background-color: rgb(51, 100, 204);
+            font-size: 2rem;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div class="char-selection">zsdcf</div>
+    <div class="panel">
+        <button class="btn-play" onclick="play()">PLAY</button>
+    </div>
+    <script>
+        function play() {
+            // document.querySelector('h1').style.background='green'
+            location.href = '/mode.html'
+        }
+    </script>
 </body>
+
 </html>
