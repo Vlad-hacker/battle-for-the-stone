@@ -9,23 +9,44 @@
         body {
             margin: 0;
         }
+
         .char-selection {
             background: rgb(51, 54, 51);
             height: 80vh;
         }
-        .panel{
-            background:rgb(20, 20, 20);
+
+        .panel {
+            background: rgb(20, 20, 20);
             height: 20vh;
         }
-        .btn-play{
+
+        .btn-play {
             background-color: rgb(51, 100, 204);
             font-size: 2rem;
         }
+
+        .char-selection {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+        }
+
+        .char {
+            width: 16rem;
+        }
+    .selected{ width: 36rem;}
+    .near{width: 26rem;}
     </style>
 </head>
 
 <body>
-    <div class="char-selection">zsdcf</div>
+    <div class="char-selection">
+        <img class="char" src="./src/img/pngegg.png" alt="">
+        <img class="char near" src="./src/img/pngegg.png" alt="">
+        <img class="char selected" src="./src/img/pngegg.png" alt="">
+        <img class="char near" src="./src/img/pngegg.png" alt="">
+        <img class="char" src="./src/img/pngegg.png" alt="">
+    </div>
     <div class="panel">
         <button class="btn-play" onclick="play()">PLAY</button>
     </div>
