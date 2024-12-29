@@ -23,22 +23,36 @@
             gap: 2rem;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+        }
+
+        .mode:hover {
+            transform: scale(1.1);
         }
 
         .mode {
             background-color: rgb(51, 49, 49);
             height: 20vh;
             width: 20vw;
+            transition: .3s;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="mode"></div>
-        <div class="mode"></div>
-        <div class="mode"></div>
+        <div class="mode" onclick="mode(1)"></div>
+        <div class="mode" onclick="mode(2)"></div>
+        <div class="mode" onclick="mode(3)"></div>
+
     </div>
+    <script>
+        function mode(n) {
+            console.log("the mode function", n)
+            const sound = new Audio('./src/sound/1.mp3')
+            sound.play()
+        }
+    </script>
 </body>
 
 </html>
