@@ -49,8 +49,9 @@
     <script>
         function mode(n) {
             console.log("the mode function", n)
-            const sound = new Audio('./src/sound/1.mp3')
-            sound.play()
+            if(n==1) location.href = './runaway-game.html';
+            if(n==2) location.href = './hide-and-seek-game.html';
+            if(n==3) location.href = './battle-game.html';
         }
     </script>
 </body>
