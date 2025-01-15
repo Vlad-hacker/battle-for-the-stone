@@ -1,15 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hide and Seek Mode</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .ground {
+            width: 2000px;
+            height: 2000px;
+            background-color: rgb(101, 92, 92);
+            background-image: url(./src/img/bg-1.jpg);
+            background-size: 50%;
+        }
+
+        .player {
+            width: 50px;
+            height: 50px;
+            background-color: rgb(16, 243, 0);
+            border-radius: 50px;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Hide and Seek Mode</h1>
+    <!-- <h1>Hide and Seek Mode</h1> -->
+    <div class="ui">
+        <div class="ground">
+            <div class="player"></div>
+        </div>
+    </div>
     <script>
         const sound = new Audio('./src/sound/1.mp3')
         sound.play()
+
+        const player = {
+            x: 100,
+            y: 100
+        }
+        const playerNode = document.querySelector('.player')
+
+        document.addEventListener('keypress', (e) => {
+            console.log(e.code)
+            if (e.code == 'KeyD') player.x+=5
+            if (e.code == 'KeyS') player.y+=5
+            if (e.code == 'KeyW') player.y-=5
+            if (e.code == 'KeyA') player.x-=5
+            console.log(player, playerNode)
+            playerNode.style.left = player.x + 'px'
+            playerNode.style.top = player.y + 'px'
+
+        })
     </script>
 </body>
+
 </html>
