@@ -20,13 +20,26 @@
         }
 
         .player {
-            width: 50px;
-            height: 50px;
-            background-color: rgb(16, 243, 0);
-            border-radius: 50px;
+            width: 146px;
+            height: 168px;
+            /* background-color: rgb(16, 243, 0); */
+            /* border-radius: 50px; */
             position: absolute;
             left: 100px;
             top: 100px;
+            background-size: 50%;
+            background-image: url('./src/img/char-sprite.png');
+            background-size: 500%;
+
+        }
+        .k2{
+            background-position: -147px 0;
+        }
+        .k3{
+            background-position: -284px 0;
+        }
+        .k4{
+            background-position: -436px 0;
         }
     </style>
 </head>
@@ -35,7 +48,7 @@
     <!-- <h1>Hide and Seek Mode</h1> -->
     <div class="ui">
         <div class="ground">
-            <div class="player"></div>
+            <div class="player k4"></div>
         </div>
     </div>
     <script>
@@ -47,7 +60,14 @@
             y: 100
         }
         const playerNode = document.querySelector('.player')
-
+        let k=1 
+setInterval(()=>{
+    k++
+    if(k>4)k=1
+    console.log(k)
+    playerNode.classList.remove('k1','k2','k3','k4')
+    playerNode.classList.add('k'+k)
+},150)
         document.addEventListener('keypress', (e) => {
             console.log(e.code)
             if (e.code == 'KeyD') player.x+=5
