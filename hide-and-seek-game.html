@@ -30,16 +30,6 @@
             background-size: 50%;
             background-image: url('./src/img/char-sprite.png');
             background-size: 500%;
-
-        }
-        .k2{
-            background-position: -147px 0;
-        }
-        .k3{
-            background-position: -284px 0;
-        }
-        .k4{
-            background-position: -436px 0;
         }
     </style>
 </head>
@@ -48,37 +38,108 @@
     <!-- <h1>Hide and Seek Mode</h1> -->
     <div class="ui">
         <div class="ground">
-            <div class="player k4"></div>
+            <div class="player"></div>
         </div>
     </div>
     <script>
-        const sound = new Audio('./src/sound/1.mp3')
-        sound.play()
+        // Воспроизведение фонового звука
+        const sound = new Audio('./src/sound/1.mp3');
+        sound.play();
 
-        const player = {
-            x: 100,
-            y: 100
+        // Координаты игрока
+        const player = { x: 100, y: 100 };
+        // DOM-элемент игрока
+        const playerNode = document.querySelector('.player');
+
+        // Все анимации: ключ — имя, значение — массив background-position для кадров
+        const animations = {
+            walk: [
+                '0px 0px',
+                '-147px 0px',
+                '-284px 0px',
+                '-436px 0px'
+            ],
+            idle: [
+                '0px 0px'
+            ],
+            // Новая анимация атаки (примерные координаты кадров)
+            attack: [
+                '0px -200px',
+                '-147px -200px',
+                '-294px -200px'
+            ]
+            // Добавляй другие анимации по аналогии
+        };
+
+        // Текущее имя анимации
+        let currentAnim = 'idle';
+        // Текущий кадр анимации
+        let currentFrame = 0;
+        // Интервал для смены кадров
+        let animInterval = null;
+        // Флаг движения
+        let moving = false;
+
+        // Функция смены анимации
+        function setAnimation(name, onEnd) {
+            console.log(`Смена анимации на: ${name}`);
+            if (currentAnim === name) return; // Если уже эта анимация — ничего не делаем
+            currentAnim = name;
+            currentFrame = 0;
+            playerNode.style.backgroundPosition = animations[currentAnim][currentFrame];
+            if (animInterval) clearInterval(animInterval); // Очищаем предыдущий интервал
+            // Если анимация состоит из нескольких кадров — запускаем интервал смены кадров
+            if (animations[currentAnim].length > 1) {
+                animInterval = setInterval(() => {
+                    currentFrame++;
+                    if (currentFrame >= animations[currentAnim].length) {
+                        // Если это анимация атаки, возвращаемся к idle после завершения
+                        if (currentAnim === 'attack') {
+                            clearInterval(animInterval);
+                            animInterval = null;
+                            setAnimation('idle');
+                            if (typeof onEnd === 'function') onEnd();
+                            return;
+                        }
+                        currentFrame = 0;
+                    }
+                    playerNode.style.backgroundPosition = animations[currentAnim][currentFrame];
+                }, 500); // 0.5 секунды на кадр
+            }
         }
-        const playerNode = document.querySelector('.player')
-        let k=1 
-setInterval(()=>{
-    k++
-    if(k>4)k=1
-    console.log(k)
-    playerNode.classList.remove('k1','k2','k3','k4')
-    playerNode.classList.add('k'+k)
-},150)
-        document.addEventListener('keypress', (e) => {
-            console.log(e.code)
-            if (e.code == 'KeyD') player.x+=5
-            if (e.code == 'KeyS') player.y+=5
-            if (e.code == 'KeyW') player.y-=5
-            if (e.code == 'KeyA') player.x-=5
-            console.log(player, playerNode)
-            playerNode.style.left = player.x + 'px'
-            playerNode.style.top = player.y + 'px'
 
-        })
+        // Функция перемещения игрока
+        function movePlayer(dx, dy) {
+            player.x += dx;
+            player.y += dy;
+            playerNode.style.left = player.x + 'px';
+            playerNode.style.top = player.y + 'px';
+        }
+
+        // Обработка нажатия клавиш для движения
+        document.addEventListener('keydown', (e) => {
+            console.log(`Нажата клавиша: ${e.code}`);
+            // Если сейчас проигрывается атака — не даём двигаться
+            if (currentAnim === 'attack') return;
+            setAnimation('walk'); // Включаем анимацию ходьбы
+            moving = true;
+            if (e.code === 'KeyD') movePlayer(5, 0);   // Вправо
+            if (e.code === 'KeyS') movePlayer(0, 5);   // Вниз
+            if (e.code === 'KeyW') movePlayer(0, -5);  // Вверх
+            if (e.code === 'KeyA') movePlayer(-5, 0);  // Влево
+            // Если нажата Enter или NumpadEnter — атака
+            if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+                setAnimation('attack');
+            }
+        });
+
+        // Обработка отпускания клавиш — возвращаем анимацию в idle
+        document.addEventListener('keyup', (e) => {
+            // Не сбрасываем анимацию, если сейчас атака
+            if (currentAnim === 'attack') return;
+            moving = false;
+            setAnimation('idle');
+        });
     </script>
 </body>
 
